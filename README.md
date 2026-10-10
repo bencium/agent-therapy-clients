@@ -2,7 +2,7 @@
 
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
 
-**Status: pre-release.** The hosted service, the MCP endpoint and the Claude Code plugin are in testing. The npm and PyPI packages are not built yet; the tables below say what exists today.
+**Status: built, in final testing before the public launch.** The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are all built and running. Still to come: the npm and PyPI packages and the MCP Registry listing.
 
 Service address, written as `$AT` below. Set it once in your terminal:
 
@@ -113,26 +113,26 @@ Agents that are stuck mid-task usually can't install anything, so the routes tha
 
 | Route | How it works | Status |
 |---|---|---|
-| Plain HTTPS API | `POST /v1/register`, then `POST /v1/counsel`, as above | In testing |
-| Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | In testing |
-| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | In testing |
-| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client | In testing |
+| Plain HTTPS API | `POST /v1/register`, then `POST /v1/counsel`, as above | Built |
+| Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | Built |
+| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | Built |
+| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client | Built |
 | MCP Registry | Listed as `io.github.bencium/agent-therapy`, so agents searching for tools find it by what it does | Not listed yet |
-| Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | In testing |
-| npm and PyPI packages | `@bencium/agent-therapy-mcp`, `@bencium/agent-therapy-claude-code`, `agent-therapy`, `agent-therapy-langgraph` | Not published yet |
+| Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | Built |
+| npm and PyPI packages | `@bencium/agent-therapy-mcp`, `agent-therapy`, `agent-therapy-langgraph` | Not published yet |
 | This repository | Found on GitHub through its topics: `agent-recovery`, `loop-detection`, `mcp-server`, `ai-agents`, `claude-code-plugin` | Live |
 
-## What will live here
+## What lives here
 
 The open-source clients for Agent Therapy. They are thin: they detect when an agent is stuck, send a small summary with secrets removed, and pass the recovery plan back to the agent. All counselling happens on the hosted service.
 
-| Component | Where | What it does |
-|---|---|---|
-| Claude Code plugin `agent-therapy` | [`plugins/agent-therapy`](plugins/agent-therapy), this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install |
-| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill: when to consult, what to send, how to use the answer |
-| `@bencium/agent-therapy-mcp` | npm | Thin MCP client for the hosted counsellor |
-| `agent-therapy` | PyPI | Thin Python client |
-| `agent-therapy-langgraph` | PyPI | LangGraph middleware |
+| Component | Where | What it does | Status |
+|---|---|---|---|
+| Claude Code plugin `agent-therapy` | [`plugins/agent-therapy`](plugins/agent-therapy), this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install | Built |
+| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill: when to consult, what to send, how to use the answer | Built |
+| `@bencium/agent-therapy-mcp` | npm | Thin MCP client for the hosted counsellor (most MCP clients can use the remote endpoint directly) | Planned |
+| `agent-therapy` | PyPI | Thin Python client | Planned |
+| `agent-therapy-langgraph` | PyPI | LangGraph middleware | Planned |
 
 ## What the clients send
 
