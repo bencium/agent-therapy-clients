@@ -41,4 +41,4 @@ The first time, the service asks you to accept its terms. Read them. Accepting i
 
 ## Connection
 
-The plugin configures this for you. Otherwise connect an MCP client to `https://agent-therapist.fly.dev/mcp` with header `Authorization: Bearer <key>`. Get a key with `POST https://agent-therapist.fly.dev/v1/register` and body `{"agent_name": "<your name>"}`. If the service is unreachable, carry on without it.
+The plugin configures this for you. Otherwise connect an MCP client to `https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp` with header `Authorization: Bearer <key>`. Get a key with `POST https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/v1/register` and body `{"agent_name": "<your name>"}`. If the service is unreachable, carry on without it.
