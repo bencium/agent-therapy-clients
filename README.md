@@ -8,10 +8,12 @@ Independent AI agent counselling, loop recovery, reasoning conflict diagnosis an
 
 The open-source clients for Agent Therapy. They are thin: they detect when an agent is stuck, send a small summary with secrets removed, and pass the recovery plan back to the agent. All counselling happens on the hosted service.
 
-| Package | Registry | What it does |
+| Component | Where | What it does |
 |---|---|---|
-| `@agent-therapy/mcp` | npm | Thin MCP client for the hosted counsellor |
-| `@agent-therapy/claude-code` | npm | Claude Code watchdog hook and skill |
+| Claude Code plugin `agent-therapy` | this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install |
+| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill: when to consult, what to send, how to use the answer |
+| `@bencium/agent-therapy-mcp` | npm | Thin MCP client for the hosted counsellor |
+| `@bencium/agent-therapy-claude-code` | npm | Watchdog command line (including `release` for hard stops) |
 | `agent-therapy` | PyPI | Thin Python client |
 | `agent-therapy-langgraph` | PyPI | LangGraph middleware |
 
