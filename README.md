@@ -2,13 +2,31 @@
 
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
 
-**Status: pre-release.** The hosted service is in testing. The Claude Code plugin, the MCP endpoint and the npm and PyPI packages are not built yet; the tables below say what exists today.
+**Status: pre-release.** The hosted service, the MCP endpoint and the Claude Code plugin are in testing. The npm and PyPI packages are not built yet; the tables below say what exists today.
 
 Service address, written as `$AT` below. Set it once in your terminal:
 
 ```
 export AT=https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech
 ```
+
+## Install the Claude Code plugin
+
+In Claude Code:
+
+```
+/plugin marketplace add bencium/agent-therapy-clients
+/plugin install agent-therapy@agent-therapy-clients
+```
+
+Claude Code asks for your API key once (see step 1 below) and keeps it in its secure storage. From then on:
+
+- **A watchdog** notices when your agent is stuck: the same call failing the same way 3 times, 8 steps with no new result, or a file flip-flopping between versions. It then asks the counsellor and adds the plan to your agent's context, right after the step that showed it was stuck. Nothing is sent before that, and only a short summary with secrets removed. If the service is slow or down, your agent carries on and one line goes to `.agent-therapy/watchdog.log`.
+- **The recovery skill** teaches your agent to ask for help itself.
+- **The MCP tools** (`counsel_agent`, `diagnose_loop`, `resolve_conflict`, `recommend_recovery`, `assess_escalation`, `report_outcome`, `accept_terms`) are connected for you.
+- **Hard stop** (off by default, turn it on in the plugin settings): after a stuck episode's 2 counselling sessions, every further tool call is blocked until a person types `/agent-therapy:release`.
+
+The watchdog keeps its state in `.agent-therapy/` in your project, readable only by you and ignored by git.
 
 ## How to send an agent to therapy
 
@@ -96,11 +114,11 @@ Agents that are stuck mid-task usually can't install anything, so the routes tha
 | Route | How it works | Status |
 |---|---|---|
 | Plain HTTPS API | `POST /v1/register`, then `POST /v1/counsel`, as above | In testing |
-| Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | Not built yet |
-| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | Draft |
-| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client | Not built yet |
+| Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | In testing |
+| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | In testing |
+| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client | In testing |
 | MCP Registry | Listed as `io.github.bencium/agent-therapy`, so agents searching for tools find it by what it does | Not listed yet |
-| Machine-readable descriptions | `$AT/openapi.json`, `$AT/llms.txt` and an A2A agent card at `$AT/.well-known/agent-card.json` | Not built yet |
+| Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | In testing |
 | npm and PyPI packages | `@bencium/agent-therapy-mcp`, `@bencium/agent-therapy-claude-code`, `agent-therapy`, `agent-therapy-langgraph` | Not published yet |
 | This repository | Found on GitHub through its topics: `agent-recovery`, `loop-detection`, `mcp-server`, `ai-agents`, `claude-code-plugin` | Live |
 
@@ -110,10 +128,9 @@ The open-source clients for Agent Therapy. They are thin: they detect when an ag
 
 | Component | Where | What it does |
 |---|---|---|
-| Claude Code plugin `agent-therapy` | this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install |
+| Claude Code plugin `agent-therapy` | [`plugins/agent-therapy`](plugins/agent-therapy), this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install |
 | Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill: when to consult, what to send, how to use the answer |
 | `@bencium/agent-therapy-mcp` | npm | Thin MCP client for the hosted counsellor |
-| `@bencium/agent-therapy-claude-code` | npm | Watchdog command line (including `release` for hard stops) |
 | `agent-therapy` | PyPI | Thin Python client |
 | `agent-therapy-langgraph` | PyPI | LangGraph middleware |
 
@@ -124,6 +141,10 @@ Only a short task summary, recent attempts and their outcomes, and any conflicti
 ## Terms
 
 Advice only. Bencium accepts no responsibility for the advice or for anything an agent does after it; whoever runs the agent is solely responsible. Full terms: `$AT/terms`.
+
+## Developing
+
+`npm test` runs the watchdog's tests with Node's built-in test runner (Node 20 or later, no dependencies).
 
 ## Licence
 

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "agent-therapy": {
+      "type": "http",
+      "url": "${user_config.service_url}/mcp",
+      "headers": { "Authorization": "Bearer ${user_config.api_key}" }
+    }
+  }
+}

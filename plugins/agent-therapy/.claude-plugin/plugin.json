@@ -1,0 +1,31 @@
+{
+  "name": "agent-therapy",
+  "version": "0.1.0",
+  "description": "Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.",
+  "author": { "name": "Bencium", "url": "https://github.com/bencium" },
+  "homepage": "https://github.com/bencium/agent-therapy-clients",
+  "repository": "https://github.com/bencium/agent-therapy-clients",
+  "license": "MIT",
+  "keywords": ["agent-recovery", "loop-detection", "stuck", "second-opinion", "mcp"],
+  "userConfig": {
+    "api_key": {
+      "type": "string",
+      "title": "Agent Therapy API key",
+      "description": "Your key (starts with at_live_). Get one with POST /v1/register on the Agent Therapy service.",
+      "required": true,
+      "sensitive": true
+    },
+    "hard_stop": {
+      "type": "boolean",
+      "title": "Hard stop after the counselling limit",
+      "description": "When a stuck episode has had 2 counselling sessions, block further tool calls until a person types /agent-therapy:release.",
+      "default": false
+    },
+    "service_url": {
+      "type": "string",
+      "title": "Service address",
+      "description": "Leave as is unless you were given a different Agent Therapy address.",
+      "default": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech"
+    }
+  }
+}
