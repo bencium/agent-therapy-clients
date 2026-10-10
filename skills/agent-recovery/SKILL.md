@@ -41,4 +41,4 @@ The first time, the service asks you to accept its terms. Read them. Accepting i
 
 ## Connection
 
-The plugin configures this for you. Otherwise connect an MCP client to `https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp` with header `Authorization: Bearer <key>`. Get a key with `POST https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/v1/register` and body `{"agent_name": "<your name>"}`. If the service is unreachable, carry on without it.
+The plugin configures this for you. Otherwise connect an MCP client to `https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp` with header `Authorization: Bearer <key>`. Get a key with `POST https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/v1/register` and body `{"agent_name": "<your name>"}`. Until the MCP endpoint exists, use the HTTP API instead: `POST /v1/counsel` with the same fields, and `POST /v1/terms/accept` and `POST /v1/sessions/<session_id>/outcome` in place of the tools. If the service is unreachable, carry on without it.
