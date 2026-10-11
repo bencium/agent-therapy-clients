@@ -9,7 +9,7 @@ import { beforeEach, describe, it } from "node:test";
 import { errorHash, inputHash } from "../plugins/agent-therapy/hooks/lib/fingerprint.mjs";
 import { emptyState, observe } from "../plugins/agent-therapy/hooks/lib/rules.mjs";
 import { MAX_CONTEXT_CHARS, planText } from "../plugins/agent-therapy/hooks/lib/service.mjs";
-import { handle } from "../plugins/agent-therapy/hooks/watchdog.mjs";
+import { configFrom, handle } from "../plugins/agent-therapy/hooks/watchdog.mjs";
 
 const SESSION = "00893aaf-19fa-41d2-8238-13269b9b3ca0";
 let projectDir;
@@ -248,4 +248,9 @@ describe("hardening", () => {
       recovery_plan: Array(20).fill(long), escalation: { required_now: false, condition: long, question_for_human: long } });
     assert.ok(text.length <= MAX_CONTEXT_CHARS);
   });
+});
+
+it("reads the key only from the plugin settings, never from other environment variables", () => {
+  assert.equal(configFrom({ AGENT_THERAPY_API_KEY: "at_live_from_env" }).apiKey, "");
+  assert.equal(configFrom({ CLAUDE_PLUGIN_OPTION_API_KEY: "at_live_setting" }).apiKey, "at_live_setting");
 });

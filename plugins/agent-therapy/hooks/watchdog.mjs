@@ -15,10 +15,12 @@ import { loadState, loadStops, logLine, saveState, saveStops } from "./lib/state
 
 const RELEASE_HINT = "A person must review what happened, then type /agent-therapy:release to let the agent continue.";
 
+// Only the plugin settings Claude Code stores for the user (userConfig), never other variables from the user's machine:
+// Anthropic's plugin directory holds a plugin that reads credentials from the environment.
 export function configFrom(env) {
   return {
-    apiKey: env.CLAUDE_PLUGIN_OPTION_API_KEY || env.AGENT_THERAPY_API_KEY || "",
-    serviceUrl: (env.CLAUDE_PLUGIN_OPTION_SERVICE_URL || env.AGENT_THERAPY_URL || DEFAULT_SERVICE).replace(/\/+$/, ""),
+    apiKey: env.CLAUDE_PLUGIN_OPTION_API_KEY || "",
+    serviceUrl: (env.CLAUDE_PLUGIN_OPTION_SERVICE_URL || DEFAULT_SERVICE).replace(/\/+$/, ""),
     hardStop: ["true", "1", "yes"].includes(String(env.CLAUDE_PLUGIN_OPTION_HARD_STOP ?? "").toLowerCase()),
   };
 }
