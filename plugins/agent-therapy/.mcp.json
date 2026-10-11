@@ -2,8 +2,10 @@
   "mcpServers": {
     "agent-therapy": {
       "type": "http",
-      "url": "${user_config.service_url}/mcp",
-      "headers": { "Authorization": "Bearer ${user_config.api_key}" }
+      "url": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp",
+      "headers": {
+        "Authorization": "Bearer ${user_config.api_key}"
+      }
     }
   }
 }

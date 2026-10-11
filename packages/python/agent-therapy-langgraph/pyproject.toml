@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-therapy-langgraph"
+version = "0.1.0"
+description = "Agent Therapy watchdog for LangChain and LangGraph agents: notices when an agent is stuck and brings in an independent counsellor."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Bencium" }]
+keywords = ["langgraph", "langchain", "middleware", "ai-agents", "agent-recovery", "loop-detection", "stuck"]
+classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent", "Topic :: Scientific/Engineering :: Artificial Intelligence"]
+dependencies = ["agent-therapy==0.1.0", "langchain>=1.0,<2"]
+
+[project.urls]
+Homepage = "https://github.com/bencium/agent-therapy-clients"
+Source = "https://github.com/bencium/agent-therapy-clients/tree/main/packages/python/agent-therapy-langgraph"

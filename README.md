@@ -2,7 +2,9 @@
 
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
 
-**Status: built, in final testing before the public launch.** The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are all built and running. Still to come: the npm and PyPI packages and the MCP Registry listing.
+**Status: built, in final testing before the public launch.** The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are built and running. The npm and PyPI packages and the MCP Registry entry are built and will be published at launch.
+
+**Not only Claude.** The recovery skill uses the open [Agent Skills](https://agentskills.io) format, which Codex, Cursor, Gemini CLI, GitHub Copilot, VS Code and 40+ other tools read. The MCP tools work in any MCP client. The plain web API works for any agent that can make web requests. Only the automatic watchdog is specific: hooks for Claude Code, and middleware for LangChain and LangGraph agents.
 
 Service address, written as `$AT` below. Set it once in your terminal:
 
@@ -44,12 +46,12 @@ The reply contains `api_key` (starts with `at_live_`). It is shown once; only a 
 
 ### 2. Accept the terms
 
-Before the first advice, the key must accept the current terms. Read them first: `curl -s $AT/v1/terms`. An agent may decide to accept on its operator's behalf, or you can accept in advance as the developer:
+Before the first advice, the key must accept the current terms. Read them first: `curl -s $AT/v1/terms` (its `terms_version` is the version to accept). An agent may decide to accept on its operator's behalf, or you can accept in advance as the developer:
 
 ```
 curl -s -X POST $AT/v1/terms/accept \
   -H 'content-type: application/json' -H 'authorization: Bearer <api_key>' \
-  -d '{"agree": "yes", "terms_version": "2026-10-10", "accepted_by": "developer"}'
+  -d '{"agree": "yes", "terms_version": "2026-10-11", "accepted_by": "developer"}'
 ```
 
 If an agent asks for counselling without an accepted key, it gets `403 terms_required` with a short summary, the full terms and instructions for accepting. Nothing else happens.
@@ -117,9 +119,11 @@ Agents that are stuck mid-task usually can't install anything, so the routes tha
 | Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | Built |
 | Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | Built |
 | Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client | Built |
-| MCP Registry | Listed as `io.github.bencium/agent-therapy`, so agents searching for tools find it by what it does | Not listed yet |
+| MCP Registry | Listed as `io.github.bencium/agent-therapy` ([`server.json`](server.json)), so agents searching for tools find it by what it does | Ready, listed at launch |
 | Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | Built |
-| npm and PyPI packages | `@bencium/agent-therapy-mcp`, `agent-therapy`, `agent-therapy-langgraph` | Not published yet |
+| npm and PyPI packages | `@bencium/agent-therapy-mcp`, `agent-therapy`, `agent-therapy-langgraph` | Built, published at launch |
+| Skill directories | The recovery skill in the open Agent Skills format, readable by Codex, Cursor, Gemini CLI and 40+ other tools | Built |
+| MCP directories | Glama, Smithery and PulseMCP, most of which pick up the MCP Registry entry | At launch |
 | This repository | Found on GitHub through its topics: `agent-recovery`, `loop-detection`, `mcp-server`, `ai-agents`, `claude-code-plugin` | Live |
 
 ## What lives here
@@ -129,10 +133,10 @@ The open-source clients for Agent Therapy. They are thin: they detect when an ag
 | Component | Where | What it does | Status |
 |---|---|---|---|
 | Claude Code plugin `agent-therapy` | [`plugins/agent-therapy`](plugins/agent-therapy), this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install | Built |
-| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill: when to consult, what to send, how to use the answer | Built |
-| `@bencium/agent-therapy-mcp` | npm | Thin MCP client for the hosted counsellor (most MCP clients can use the remote endpoint directly) | Planned |
-| `agent-therapy` | PyPI | Thin Python client | Planned |
-| `agent-therapy-langgraph` | PyPI | LangGraph middleware | Planned |
+| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill for any tool that reads Agent Skills: when to consult, what to send, how to use the answer | Built |
+| `@bencium/agent-therapy-mcp` | [`packages/agent-therapy-mcp`](packages/agent-therapy-mcp), npm | Connects MCP clients that only start local programs to the hosted counsellor (most MCP clients can use the remote endpoint directly) | Built, published at launch |
+| `agent-therapy` | [`packages/python/agent-therapy`](packages/python/agent-therapy), PyPI | Thin Python client, no dependencies | Built, published at launch |
+| `agent-therapy-langgraph` | [`packages/python/agent-therapy-langgraph`](packages/python/agent-therapy-langgraph), PyPI | Watchdog middleware for LangChain and LangGraph agents | Built, published at launch |
 
 ## What the clients send
 
@@ -144,7 +148,7 @@ Advice only. Bencium accepts no responsibility for the advice or for anything an
 
 ## Developing
 
-`npm test` runs the watchdog's tests with Node's built-in test runner (Node 20 or later, no dependencies).
+`npm test` runs the watchdog's and the listings' tests with Node's built-in test runner (Node 20 or later, no dependencies). The npm package has its own `npm test` in `packages/agent-therapy-mcp`. The Python packages use `unittest`: `PYTHONPATH=src python3 -m unittest discover -s tests` (the LangGraph one needs `langchain` installed).
 
 ## Licence
 

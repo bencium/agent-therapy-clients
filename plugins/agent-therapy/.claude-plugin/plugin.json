@@ -1,12 +1,21 @@
 {
   "name": "agent-therapy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.",
-  "author": { "name": "Bencium", "url": "https://github.com/bencium" },
+  "author": {
+    "name": "Bencium",
+    "url": "https://github.com/bencium"
+  },
   "homepage": "https://github.com/bencium/agent-therapy-clients",
   "repository": "https://github.com/bencium/agent-therapy-clients",
   "license": "MIT",
-  "keywords": ["agent-recovery", "loop-detection", "stuck", "second-opinion", "mcp"],
+  "keywords": [
+    "agent-recovery",
+    "loop-detection",
+    "stuck",
+    "second-opinion",
+    "mcp"
+  ],
   "userConfig": {
     "api_key": {
       "type": "string",
@@ -24,7 +33,7 @@
     "service_url": {
       "type": "string",
       "title": "Service address",
-      "description": "Leave as is unless you were given a different Agent Therapy address.",
+      "description": "Address the watchdog sends to. Leave as is unless you were given a different Agent Therapy address. The MCP tools always use the default address.",
       "default": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech"
     }
   }
