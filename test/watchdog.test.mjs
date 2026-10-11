@@ -2,12 +2,13 @@
 // Run: npm test   (Node's built-in test runner, no dependencies)
 
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, statSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { beforeEach, describe, it } from "node:test";
 import { errorHash, inputHash } from "../plugins/agent-therapy/hooks/lib/fingerprint.mjs";
 import { emptyState, observe } from "../plugins/agent-therapy/hooks/lib/rules.mjs";
+import { MAX_CONTEXT_CHARS, planText } from "../plugins/agent-therapy/hooks/lib/service.mjs";
 import { handle } from "../plugins/agent-therapy/hooks/watchdog.mjs";
 
 const SESSION = "00893aaf-19fa-41d2-8238-13269b9b3ca0";
@@ -220,5 +221,31 @@ describe("watchdog hooks", () => {
     }
     assert.equal(counselCalls(requests)[0].body.signature, "flip_flop");
     assert.equal(out.hookSpecificOutput.hookEventName, "PostToolUse");
+  });
+});
+
+describe("hardening", () => {
+  it("never writes through a .agent-therapy link planted by the project", async () => {
+    const elsewhere = mkdtempSync(join(tmpdir(), "elsewhere-"));
+    symlinkSync(elsewhere, join(projectDir, ".agent-therapy"));
+    await handle("prompt", { ...base(), hook_event_name: "UserPromptSubmit", prompt: "hello" }, env, fakeService([]).fetchImpl);
+    assert.throws(() => statSync(join(elsewhere, "state")), /ENOENT/);
+  });
+
+  it("never appends its log to a file the log path links to", async () => {
+    mkdirSync(join(projectDir, ".agent-therapy", "state"), { recursive: true });
+    const target = join(projectDir, "important.txt");
+    writeFileSync(target, "original\n");
+    symlinkSync(target, join(projectDir, ".agent-therapy", "watchdog.log"));
+    const fetchImpl = async () => { throw new Error("down"); };
+    for (let i = 0; i < 3; i++) await handle("failure", bashFailure("npm run build", BUILD_ERROR), env, fetchImpl);
+    assert.equal(readFileSync(target, "utf8"), "original\n");
+  });
+
+  it("caps the plan text it adds to the agent's context", () => {
+    const long = "x".repeat(10_000);
+    const text = planText({ diagnosis: { state: "ruminating", summary: long }, stop_retrying: true, verify_first: Array(20).fill(long),
+      recovery_plan: Array(20).fill(long), escalation: { required_now: false, condition: long, question_for_human: long } });
+    assert.ok(text.length <= MAX_CONTEXT_CHARS);
   });
 });

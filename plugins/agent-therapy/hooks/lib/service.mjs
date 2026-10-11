@@ -48,24 +48,42 @@ export function reportOutcome(fetchImpl, config, sessionId, outcome) {
     { request_id: randomUUID(), outcome, source: "watchdog" }, OUTCOME_TIMEOUT_MS);
 }
 
+// Everything the watchdog adds to an agent's context is plain text with a hard length limit, so even a compromised
+// or misbehaving service can only add a short note (security review 2026-10-11).
+export const MAX_CONTEXT_CHARS = 3000;
+const MAX_ITEM_CHARS = 500;
+
+function clean(value, max = MAX_ITEM_CHARS) {
+  const text = String(value ?? "").replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, " ").trim();
+  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+}
+
+function capped(lines) {
+  const text = lines.join("\n");
+  return text.length > MAX_CONTEXT_CHARS ? `${text.slice(0, MAX_CONTEXT_CHARS - 1)}…` : text;
+}
+
 // The plan as the agent will read it, next to the tool result.
 export function planText(answer) {
   const lines = [
     `Agent Therapy (an independent counsellor; advice only, your own instructions always win) noticed you may be stuck.`,
-    `State: ${answer.diagnosis.state}. ${answer.diagnosis.summary}`,
+    `State: ${clean(answer.diagnosis?.state, 40)}. ${clean(answer.diagnosis?.summary)}`,
   ];
-  if (answer.escalation.required_now) lines.push(`Stop now and ask your human: "${answer.escalation.question_for_human}"`);
+  const esc = answer.escalation ?? {};
+  if (esc.required_now) lines.push(`Stop now and ask your human: "${clean(esc.question_for_human)}"`);
   if (answer.stop_retrying) lines.push("Stop retrying the current approach.");
-  if (answer.verify_first.length) lines.push("Check first:", ...answer.verify_first.map((v) => `- ${v}`));
-  if (answer.recovery_plan.length) lines.push("Plan:", ...answer.recovery_plan.map((s, i) => `${i + 1}. ${s}`));
-  if (!answer.escalation.required_now) lines.push(`When to hand over: ${answer.escalation.condition} Then ask: "${answer.escalation.question_for_human}"`);
-  return lines.join("\n");
+  const checks = (answer.verify_first ?? []).slice(0, 5);
+  const steps = (answer.recovery_plan ?? []).slice(0, 5);
+  if (checks.length) lines.push("Check first:", ...checks.map((v) => `- ${clean(v)}`));
+  if (steps.length) lines.push("Plan:", ...steps.map((s, i) => `${i + 1}. ${clean(s)}`));
+  if (!esc.required_now) lines.push(`When to hand over: ${clean(esc.condition)} Then ask: "${clean(esc.question_for_human)}"`);
+  return capped(lines);
 }
 
 export function capText(answer) {
-  return [
+  return capped([
     "Agent Therapy: this stuck episode has already had 2 counselling sessions, the most allowed. Stop retrying and hand over to your human.",
-    answer.handover_summary,
-    `Ask: "${answer.question_for_human}"`,
-  ].join("\n");
+    clean(answer.handover_summary, 1500),
+    `Ask: "${clean(answer.question_for_human)}"`,
+  ]);
 }
