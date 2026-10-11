@@ -2,7 +2,9 @@
 
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
 
-**Status: built, in final testing before the public launch.** The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are built and running. The npm package, both PyPI packages and the MCP Registry entry are published (2026-10-11).
+**Status: live (2026-10-11), highly experimental.** Registration is open. The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are running; the npm package, both PyPI packages and the MCP Registry entry are published. The plugin is submitted to Anthropic's plugin directory and waiting for review.
+
+The knowledge base behind the counsellor was curated and written by Dr. Ágnes Riskó, originally for patients, their relatives and professionals ([anna.onkopszichologia.hu](https://anna.onkopszichologia.hu)). Anna AI, built on it, was described in a peer-reviewed article in *Magyar Onkológia* in 2026, [indexed in PubMed](https://pubmed.ncbi.nlm.nih.gov/41819064/).
 
 **Not only Claude.** The recovery skill uses the open [Agent Skills](https://agentskills.io) format, which Codex, Cursor, Gemini CLI, GitHub Copilot, VS Code and 40+ other tools read. The MCP tools work in any MCP client. The plain web API works for any agent that can make web requests. Only the automatic watchdog is specific: hooks for Claude Code, and middleware for LangChain and LangGraph agents.
 
@@ -149,15 +151,15 @@ Agents that are stuck mid-task usually can't install anything, so the routes tha
 
 | Route | How it works | Status |
 |---|---|---|
-| Plain HTTPS API | `POST /v1/register`, then `POST /v1/counsel`, as above | Built |
-| Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | Built |
-| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | Built |
-| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client. An agent can get a key with the `register` tool and pass it as `api_key` when its client can't send headers, so no human setup is needed | Built |
+| Plain HTTPS API | `POST /v1/register`, then `POST /v1/counsel`, as above | Live |
+| Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | Live from this repo's marketplace; submitted to Anthropic's plugin directory |
+| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | Live |
+| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client. An agent can get a key with the `register` tool and pass it as `api_key` when its client can't send headers, so no human setup is needed | Live |
 | MCP Registry | Listed as `io.github.bencium/agent-therapy` ([`server.json`](server.json)), so agents searching for tools find it by what it does | Live |
-| Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | Built |
+| Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | Live |
 | npm and PyPI packages | `npx -y @bencium/agent-therapy-mcp@0.1.0`, `pip install agent-therapy`, `pip install agent-therapy-langgraph` | Live |
 | Skill directories | The recovery skill in the open Agent Skills format, readable by Codex, Cursor, Gemini CLI and 40+ other tools; installable with `npx skills add bencium/agent-therapy-clients`, which lists it on [skills.sh](https://skills.sh) | Live |
-| MCP directories | Glama, Smithery and PulseMCP, most of which pick up the MCP Registry entry | Submitting |
+| MCP directories | Glama (submitted); PulseMCP picks up the MCP Registry entry once its submissions reopen; Smithery later | Submitted |
 | This repository | Found on GitHub through its topics: `agent-recovery`, `loop-detection`, `mcp-server`, `ai-agents`, `claude-code-plugin` | Live |
 
 ## What lives here
@@ -166,8 +168,8 @@ The open-source clients for Agent Therapy. They are thin: they detect when an ag
 
 | Component | Where | What it does | Status |
 |---|---|---|---|
-| Claude Code plugin `agent-therapy` | [`plugins/agent-therapy`](plugins/agent-therapy), this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install | Built |
-| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill for any tool that reads Agent Skills: when to consult, what to send, how to use the answer | Built |
+| Claude Code plugin `agent-therapy` | [`plugins/agent-therapy`](plugins/agent-therapy), this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install | Live |
+| Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill for any tool that reads Agent Skills: when to consult, what to send, how to use the answer | Live |
 | `@bencium/agent-therapy-mcp` | [`packages/agent-therapy-mcp`](packages/agent-therapy-mcp), npm | Connects MCP clients that only start local programs to the hosted counsellor (most MCP clients can use the remote endpoint directly) | Live |
 | `agent-therapy` | [`packages/python/agent-therapy`](packages/python/agent-therapy), PyPI | Thin Python client, no dependencies | Live |
 | `agent-therapy-langgraph` | [`packages/python/agent-therapy-langgraph`](packages/python/agent-therapy-langgraph), PyPI | Watchdog middleware for LangChain and LangGraph agents | Live |
