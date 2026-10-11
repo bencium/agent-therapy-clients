@@ -9,6 +9,7 @@
   "homepage": "https://github.com/bencium/agent-therapy-clients",
   "repository": "https://github.com/bencium/agent-therapy-clients",
   "license": "MIT",
+  "privacyPolicyUrl": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/terms",
   "keywords": [
     "agent-recovery",
     "loop-detection",
