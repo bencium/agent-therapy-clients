@@ -2,7 +2,7 @@
 
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
 
-**Status: built, in final testing before the public launch.** The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are built and running. The npm and PyPI packages and the MCP Registry entry are built and will be published at launch.
+**Status: built, in final testing before the public launch.** The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are built and running. The npm package, both PyPI packages and the MCP Registry entry are published (2026-10-11).
 
 **Not only Claude.** The recovery skill uses the open [Agent Skills](https://agentskills.io) format, which Codex, Cursor, Gemini CLI, GitHub Copilot, VS Code and 40+ other tools read. The MCP tools work in any MCP client. The plain web API works for any agent that can make web requests. Only the automatic watchdog is specific: hooks for Claude Code, and middleware for LangChain and LangGraph agents.
 
@@ -59,7 +59,7 @@ From then on, Claude can consult the counsellor when it is stuck, or when you as
   ```
   then `export AGENT_THERAPY_API_KEY=<your key>` before starting Codex.
 - **Any other MCP app that takes a server address** (for example Cursor): add the address above with the header `Authorization: Bearer <your key>`. If the app can't send headers, leave the key out: the agent can call `register` and pass the key as `api_key` to every tool.
-- **Apps that only start local programs:** use the npm package `@bencium/agent-therapy-mcp` ([setup](packages/agent-therapy-mcp/README.md)). It needs Node.js 20 or later and is published at launch.
+- **Apps that only start local programs:** use the npm package `@bencium/agent-therapy-mcp` ([setup](packages/agent-therapy-mcp/README.md)). It needs Node.js 20 or later.
 - **The recovery skill** alone, for Codex, Cursor, Gemini CLI and 40+ other tools that read skills: copy [`skills/agent-recovery`](skills/agent-recovery) into the tool's skills folder (Codex: `~/.agents/skills/`).
 
 Get a key yourself with one request if you prefer: `curl -s -X POST https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/v1/register -H 'content-type: application/json' -d '{"agent_name": "<name>"}'`.
@@ -153,11 +153,11 @@ Agents that are stuck mid-task usually can't install anything, so the routes tha
 | Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | Built |
 | Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | Built |
 | Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client. An agent can get a key with the `register` tool and pass it as `api_key` when its client can't send headers, so no human setup is needed | Built |
-| MCP Registry | Listed as `io.github.bencium/agent-therapy` ([`server.json`](server.json)), so agents searching for tools find it by what it does | Ready, listed at launch |
+| MCP Registry | Listed as `io.github.bencium/agent-therapy` ([`server.json`](server.json)), so agents searching for tools find it by what it does | Live |
 | Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | Built |
-| npm and PyPI packages | `@bencium/agent-therapy-mcp`, `agent-therapy`, `agent-therapy-langgraph` | Built, published at launch |
+| npm and PyPI packages | `npx -y @bencium/agent-therapy-mcp@0.1.0`, `pip install agent-therapy`, `pip install agent-therapy-langgraph` | Live |
 | Skill directories | The recovery skill in the open Agent Skills format, readable by Codex, Cursor, Gemini CLI and 40+ other tools | Built |
-| MCP directories | Glama, Smithery and PulseMCP, most of which pick up the MCP Registry entry | At launch |
+| MCP directories | Glama, Smithery and PulseMCP, most of which pick up the MCP Registry entry | Submitting |
 | This repository | Found on GitHub through its topics: `agent-recovery`, `loop-detection`, `mcp-server`, `ai-agents`, `claude-code-plugin` | Live |
 
 ## What lives here
@@ -168,9 +168,9 @@ The open-source clients for Agent Therapy. They are thin: they detect when an ag
 |---|---|---|---|
 | Claude Code plugin `agent-therapy` | [`plugins/agent-therapy`](plugins/agent-therapy), this repo's plugin marketplace | Watchdog hooks, the recovery skill and the remote MCP connection in one install | Built |
 | Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) | Standalone skill for any tool that reads Agent Skills: when to consult, what to send, how to use the answer | Built |
-| `@bencium/agent-therapy-mcp` | [`packages/agent-therapy-mcp`](packages/agent-therapy-mcp), npm | Connects MCP clients that only start local programs to the hosted counsellor (most MCP clients can use the remote endpoint directly) | Built, published at launch |
-| `agent-therapy` | [`packages/python/agent-therapy`](packages/python/agent-therapy), PyPI | Thin Python client, no dependencies | Built, published at launch |
-| `agent-therapy-langgraph` | [`packages/python/agent-therapy-langgraph`](packages/python/agent-therapy-langgraph), PyPI | Watchdog middleware for LangChain and LangGraph agents | Built, published at launch |
+| `@bencium/agent-therapy-mcp` | [`packages/agent-therapy-mcp`](packages/agent-therapy-mcp), npm | Connects MCP clients that only start local programs to the hosted counsellor (most MCP clients can use the remote endpoint directly) | Live |
+| `agent-therapy` | [`packages/python/agent-therapy`](packages/python/agent-therapy), PyPI | Thin Python client, no dependencies | Live |
+| `agent-therapy-langgraph` | [`packages/python/agent-therapy-langgraph`](packages/python/agent-therapy-langgraph), PyPI | Watchdog middleware for LangChain and LangGraph agents | Live |
 
 ## What the clients send
 
