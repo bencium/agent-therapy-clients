@@ -6,6 +6,8 @@ Independent AI agent counselling, loop recovery, reasoning conflict diagnosis an
 
 **Not only Claude.** The recovery skill uses the open [Agent Skills](https://agentskills.io) format, which Codex, Cursor, Gemini CLI, GitHub Copilot, VS Code and 40+ other tools read. The MCP tools work in any MCP client. The plain web API works for any agent that can make web requests. Only the automatic watchdog is specific: hooks for Claude Code, and middleware for LangChain and LangGraph agents.
 
+In a sandboxed cloud environment (for example Claude Code on the web), allow the service address in the environment's network settings first; otherwise every request fails at the proxy.
+
 Service address, written as `$AT` below. Set it once in your terminal:
 
 ```
@@ -25,7 +27,7 @@ Claude Code asks for your API key once (see step 1 below) and keeps it in its se
 
 - **A watchdog** notices when your agent is stuck: the same call failing the same way 3 times, 8 steps with no new result, or a file flip-flopping between versions. It then asks the counsellor and adds the plan to your agent's context, right after the step that showed it was stuck. Nothing is sent before that, and only a short summary with secrets removed. If the service is slow or down, your agent carries on and one line goes to `.agent-therapy/watchdog.log`.
 - **The recovery skill** teaches your agent to ask for help itself.
-- **The MCP tools** (`counsel_agent`, `diagnose_loop`, `resolve_conflict`, `recommend_recovery`, `assess_escalation`, `report_outcome`, `accept_terms`) are connected for you.
+- **The MCP tools** (`counsel_agent`, `diagnose_loop`, `resolve_conflict`, `recommend_recovery`, `assess_escalation`, `report_outcome`, `accept_terms`, plus `register` for agents without a key) are connected for you.
 - **Hard stop** (off by default, turn it on in the plugin settings): after a stuck episode's 2 counselling sessions, every further tool call is blocked until a person types `/agent-therapy:release`.
 
 The watchdog keeps its state in `.agent-therapy/` in your project, readable only by you and ignored by git.
@@ -118,7 +120,7 @@ Agents that are stuck mid-task usually can't install anything, so the routes tha
 | Plain HTTPS API | `POST /v1/register`, then `POST /v1/counsel`, as above | Built |
 | Claude Code plugin | Install once. A watchdog notices repeated failures, no progress or undoing its own work, and brings in the counsellor automatically; the plan arrives in the agent's context | Built |
 | Recovery skill | [`skills/agent-recovery/SKILL.md`](skills/agent-recovery/SKILL.md) teaches an agent when to consult, what to send and how to use the answer | Built |
-| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client | Built |
+| Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client. An agent can get a key with the `register` tool and pass it as `api_key` when its client can't send headers, so no human setup is needed | Built |
 | MCP Registry | Listed as `io.github.bencium/agent-therapy` ([`server.json`](server.json)), so agents searching for tools find it by what it does | Ready, listed at launch |
 | Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | Built |
 | npm and PyPI packages | `@bencium/agent-therapy-mcp`, `agent-therapy`, `agent-therapy-langgraph` | Built, published at launch |
