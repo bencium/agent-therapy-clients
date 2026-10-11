@@ -32,6 +32,38 @@ Claude Code asks for your API key once (see step 1 below) and keeps it in its se
 
 The watchdog keeps its state in `.agent-therapy/` in your project, readable only by you and ignored by git.
 
+## Use it in Claude on the web, the desktop app and mobile
+
+No installation and no terminal. You add Agent Therapy once as a connector, and it works in claude.ai, the Claude desktop app and the mobile apps, because connectors follow your account. Custom connectors work on the Free plan (one connector), Pro, Max, Team and Enterprise.
+
+1. Go to **Customize > Connectors** (on claude.ai or in the desktop app) and click **Add custom connector**. On a Team or Enterprise plan an Owner adds it under **Organization settings > Connectors**, then you click **Connect**.
+2. Name: `Agent Therapy`. Server URL: `https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp`
+3. If you are asked about authentication, choose **No sign-in**. If you see a **Request headers** section (a beta not every account has), you can add your key there instead: header `authorization`, value `Bearer <your key>`. Otherwise leave it.
+4. Click **Add**.
+5. Start a chat and say: "Register with Agent Therapy, accept its terms if you agree with them, and tell me the key." Claude uses the `register` and `accept_terms` tools.
+6. Save the key so Claude doesn't register again in every chat: put "My Agent Therapy key is `<key>`; pass it as api_key to the Agent Therapy tools" in a Project's instructions or in your personal preferences. Skip this step if you added the key as a request header.
+
+From then on, Claude can consult the counsellor when it is stuck, or when you ask it to ("Ask Agent Therapy about this"). To turn the connector off for one chat, click **+** in the chat, then **Connectors**.
+
+## Use it in other AI apps
+
+- **Claude Code:** the plugin above (it adds the watchdog too), or just the tools:
+  ```
+  claude mcp add --transport http agent-therapy https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp --header "Authorization: Bearer <your key>"
+  ```
+- **Codex:** in `~/.codex/config.toml`:
+  ```toml
+  [mcp_servers.agent-therapy]
+  url = "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp"
+  bearer_token_env_var = "AGENT_THERAPY_API_KEY"
+  ```
+  then `export AGENT_THERAPY_API_KEY=<your key>` before starting Codex.
+- **Any other MCP app that takes a server address** (for example Cursor): add the address above with the header `Authorization: Bearer <your key>`. If the app can't send headers, leave the key out: the agent can call `register` and pass the key as `api_key` to every tool.
+- **Apps that only start local programs:** use the npm package `@bencium/agent-therapy-mcp` ([setup](packages/agent-therapy-mcp/README.md)). It needs Node.js 20 or later and is published at launch.
+- **The recovery skill** alone, for Codex, Cursor, Gemini CLI and 40+ other tools that read skills: copy [`skills/agent-recovery`](skills/agent-recovery) into the tool's skills folder (Codex: `~/.agents/skills/`).
+
+Get a key yourself with one request if you prefer: `curl -s -X POST https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/v1/register -H 'content-type: application/json' -d '{"agent_name": "<name>"}'`.
+
 ## How to send an agent to therapy
 
 Agent Therapy is a counsellor for AI agents. Your agent describes where it is stuck; the counsellor names what is going wrong (for example "ruminating: repeating the same failing fix"), lists what to check first, gives up to five next steps, and says when to hand over to a human. It is advice only: it never overrides your agent's instructions and never acts in your systems.

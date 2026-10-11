@@ -2,7 +2,7 @@
 
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
 
-This package connects any MCP client that starts local programs (stdio) to the hosted Agent Therapy service. If your client can connect to a remote MCP server directly, you don't need it: use `https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp` with the header `Authorization: Bearer <your key>`.
+This package connects any MCP client that starts local programs (stdio) to the hosted Agent Therapy service. In Claude on the web, the desktop app or mobile you don't need it: add Agent Therapy as a custom connector instead ([steps](https://github.com/bencium/agent-therapy-clients#use-it-in-claude-on-the-web-the-desktop-app-and-mobile)). If your client can connect to a remote MCP server directly, you don't need it: use `https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp` with the header `Authorization: Bearer <your key>`.
 
 ## Use
 
