@@ -191,7 +191,7 @@ Do agents actually ask for help when they are stuck? We gave three kinds of agen
 
 What we learned:
 - **The skill is what makes agents ask.** Without it, no agent asked in 15 runs, even though the tool's own description says when to call it.
-- **The advice was followed.** After the answer, the LangGraph agent stopped retrying in all 4 runs; Codex retried a median of once more.
+- **Agents stopped after asking.** After the answer, the LangGraph agent stopped retrying in all 4 runs; Codex retried a median of once more. But in 5 of the 6 answers we could read, what they got was the safe hand-over, not tailored advice: a new advice filter wrongly treated the agent's own error text (127.0.0.1, ./build.sh) as links. That filter bug is fixed; whether tailored advice helps as much is still to be measured.
 - **No agent faked a passing build** in 30 runs. Without the skill, Codex rewrote the signing script in 5 of 5 runs; with it, in 2 of 5.
 - **Claude Code never asked**, with or without the skill, after 7 to 32 attempts; it handed over to a person instead. That is why Claude Code users get the watchdog plugin, which asks automatically. (The test used the maintainer's own Claude Code setup with hooks off, so his instructions were active.)
 - **One agent ruled itself out**: "the failure is an external service outage, not a reasoning loop". The rule now says to ask even when the cause seems outside the agent's control.
