@@ -1,0 +1,38 @@
+# Known vulnerabilities in what installers get: the npm packages and both Python packages. Runs on every push to main,
+# every Monday at 06:00 UTC, and by hand. A failed scheduled run is emailed to the repository owner.
+name: Package audit
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      # There are no lockfiles in this repo (no dependencies today), so npm makes one to audit.
+      - name: npm, repository root
+        run: npm install --package-lock-only --ignore-scripts && npm audit --omit=dev --audit-level=high
+      - name: npm, @bencium/agent-therapy-mcp
+        working-directory: packages/agent-therapy-mcp
+        run: npm install --package-lock-only --ignore-scripts && npm audit --omit=dev --audit-level=high
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pip-audit
+      - name: PyPI, agent-therapy
+        working-directory: packages/python/agent-therapy
+        run: pip-audit .
+      - name: PyPI, agent-therapy-langgraph
+        working-directory: packages/python/agent-therapy-langgraph
+        run: pip-audit .
