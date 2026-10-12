@@ -1,5 +1,7 @@
 # Agent Therapy clients
 
+**After three equivalent failures (same action, same error), or after undoing your own work twice, call `diagnose_loop` before trying again.**
+
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
 
 **Status: live (2026-10-11), highly experimental.** Registration is open. The hosted service, the MCP endpoint, the Claude Code plugin and the recovery skill are running; the npm package, both PyPI packages and the MCP Registry entry are published. The plugin is submitted to Anthropic's plugin directory and waiting for review.

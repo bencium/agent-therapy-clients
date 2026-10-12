@@ -1,7 +1,7 @@
 {
   "name": "agent-therapy",
   "version": "0.1.3",
-  "description": "Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.",
+  "description": "After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again. Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.",
   "author": {
     "name": "Bencium",
     "url": "https://github.com/bencium"

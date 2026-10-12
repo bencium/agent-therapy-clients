@@ -5,7 +5,8 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 const SERVICE = "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech";
-const DESCRIPTION = "Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.";
+const RULE = "After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again.";
+const DESCRIPTION = `${RULE} Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.`;
 const json = (path) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), "utf8"));
 const text = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -35,4 +36,15 @@ test("the Python packages carry the approved description and matching versions",
   assert.ok(client.includes(`description = "${DESCRIPTION}"`));
   const version = client.match(/^version = "(.+)"/m)[1];
   assert.ok(langgraph.includes(`"agent-therapy==${version}"`));
+});
+
+// The one mechanical trigger (Bence, 2026-10-12) comes first wherever an agent or developer first reads about the service.
+test("the consult rule comes first in the skill, the README and the listings", () => {
+  for (const path of ["skills/agent-recovery/SKILL.md", "plugins/agent-therapy/skills/agent-recovery/SKILL.md"]) {
+    const skill = text(path);
+    assert.match(skill, new RegExp(`^description: ${RULE.replace(/[()]/g, "\\$&")}`, "m"), path);
+    assert.ok(skill.includes(`# Agent recovery\n\n**${RULE}**`), path);
+  }
+  assert.ok(text("README.md").startsWith(`# Agent Therapy clients\n\n**${RULE.replace("diagnose_loop", "`diagnose_loop`")}**`));
+  assert.ok(json(".claude-plugin/marketplace.json").plugins.every((p) => p.description.startsWith(RULE)));
 });

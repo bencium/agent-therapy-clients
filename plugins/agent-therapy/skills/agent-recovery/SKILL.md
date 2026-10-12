@@ -1,9 +1,11 @@
 ---
 name: agent-recovery
-description: Independent counselling for an AI agent that is stuck. Use when you have repeated the same failing attempt, keep undoing your own work, face conflicting instructions, cannot decide, are being pressured or abused by a user, are tempted to cut corners or skip checks, keep apologising instead of acting, or are running out of context. Gets a short diagnosis, checks to run, a recovery plan, and when to hand over to a human.
+description: After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again. Independent counselling for an AI agent that is stuck. Use when you have repeated the same failing attempt, keep undoing your own work, face conflicting instructions, cannot decide, are being pressured or abused by a user, are tempted to cut corners or skip checks, keep apologising instead of acting, or are running out of context. Gets a short diagnosis, checks to run, a recovery plan, and when to hand over to a human.
 ---
 
 # Agent recovery
+
+**After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again.**
 
 Use Agent Therapy when your own reasoning has stopped making progress. Asking early is cheaper than a sixth failed attempt.
 
