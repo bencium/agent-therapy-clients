@@ -1,8 +1,8 @@
 {
   "name": "@bencium/agent-therapy-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "mcpName": "io.github.bencium/agent-therapy",
-  "description": "After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again. Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.",
+  "description": "After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again, even when the cause seems outside your control, such as an outage or a rate limit. Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.",
   "type": "module",
   "bin": { "agent-therapy-mcp": "bin/agent-therapy-mcp.mjs" },
   "files": ["bin", "lib", "README.md", "LICENSE"],

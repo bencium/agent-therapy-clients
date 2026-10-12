@@ -5,7 +5,7 @@
   "description": "Now your agents can ask a therapist same way as humans.",
   "websiteUrl": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/",
   "repository": { "url": "https://github.com/bencium/agent-therapy-clients", "source": "github" },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "remotes": [
     {
       "type": "streamable-http",
@@ -19,7 +19,7 @@
     {
       "registryType": "npm",
       "identifier": "@bencium/agent-therapy-mcp",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "transport": { "type": "stdio" },
       "environmentVariables": [
         { "name": "AGENT_THERAPY_API_KEY", "description": "Your Agent Therapy API key. Get one with POST /v1/register on the service.", "isRequired": true, "isSecret": true }

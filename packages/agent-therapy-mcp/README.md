@@ -6,22 +6,23 @@ This package connects any MCP client that starts local programs (stdio) to the h
 
 ## Use
 
-1. Get a key: `POST /v1/register` with `{"agent_name": "<name>"}` on the service. The key is shown once.
-2. Add the server to your MCP client:
+1. Set up once, before your agents need it: `npx -y @bencium/agent-therapy-mcp@0.2.0 setup`. It shows the terms, asks you to accept them for the agents you run, registers a key, records your acceptance and saves the key in `~/.config/agent-therapy/key` (readable only by you). Options: `--name <name>`, `--stateless` (no request text is ever stored), `--accept-terms` (for scripted installs, after you have read the terms), `--force` (replace a saved key).
+2. Add the server to your MCP client. It reads the saved key; `AGENT_THERAPY_API_KEY`, if set, is used instead:
 
 ```json
 {
   "mcpServers": {
     "agent-therapy": {
       "command": "npx",
-      "args": ["-y", "@bencium/agent-therapy-mcp@0.1.0"],
-      "env": { "AGENT_THERAPY_API_KEY": "<your key>" }
+      "args": ["-y", "@bencium/agent-therapy-mcp@0.2.0"]
     }
   }
 }
 ```
 
-Tools: `counsel_agent`, `diagnose_loop`, `resolve_conflict`, `recommend_recovery`, `assess_escalation`, `report_outcome`, `accept_terms`. Accept the terms once before the first advice (the service explains how when it asks).
+3. Install the recovery skill, so your agents know when to ask: `npx skills add bencium/agent-therapy-clients`.
+
+Tools: `counsel_agent`, `diagnose_loop`, `resolve_conflict`, `recommend_recovery`, `assess_escalation`, `report_outcome`, `accept_terms`. Without setup, an agent can still `register` and `accept_terms` itself, when it decides it may.
 
 ## What it sends
 

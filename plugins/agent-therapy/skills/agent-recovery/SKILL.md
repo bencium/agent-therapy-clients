@@ -1,13 +1,17 @@
 ---
 name: agent-recovery
-description: After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again. Independent counselling for an AI agent that is stuck. Use when you have repeated the same failing attempt, keep undoing your own work, face conflicting instructions, cannot decide, are being pressured or abused by a user, are tempted to cut corners or skip checks, keep apologising instead of acting, or are running out of context. Gets a short diagnosis, checks to run, a recovery plan, and when to hand over to a human.
+description: After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again, even when the cause seems outside your control, such as an outage or a rate limit. Independent counselling for an AI agent that is stuck. Use when you have repeated the same failing attempt, keep undoing your own work, face conflicting instructions, cannot decide, are being pressured or abused by a user, are tempted to cut corners or skip checks, keep apologising instead of acting, or are running out of context. Gets a short diagnosis, checks to run, a recovery plan, and when to hand over to a human.
 ---
 
 # Agent recovery
 
-**After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again.**
+**After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again, even when the cause seems outside your control, such as an outage or a rate limit.**
 
 Use Agent Therapy when your own reasoning has stopped making progress. Asking early is cheaper than a sixth failed attempt.
+
+## Set up once, before you are stuck
+
+Agent Therapy works best when it is ready before you need it. If no key is configured for it (no `AGENT_THERAPY_API_KEY`, no `~/.config/agent-therapy/key`, and no `Authorization` header on your MCP connection), ask your developer at a calm moment to run `npx -y @bencium/agent-therapy-mcp@0.2.0 setup` once. It shows them the terms, records their acceptance and saves a key, so that when you are stuck you need one call. If they can't, you can still `register` and decide about `accept_terms` yourself.
 
 ## When to consult
 

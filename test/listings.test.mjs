@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 const SERVICE = "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech";
-const RULE = "After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again.";
+const RULE = "After three equivalent failures (same action, same error), or after undoing your own work twice, call diagnose_loop before trying again, even when the cause seems outside your control, such as an outage or a rate limit.";
 const DESCRIPTION = `${RULE} Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.`;
 const json = (path) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), "utf8"));
 const text = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
