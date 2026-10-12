@@ -5,4 +5,4 @@ from .client import DEFAULT_URL, OUTCOMES, SIGNATURES, AgentTherapy, AgentTherap
 from .redact import redact
 
 __all__ = ["AgentTherapy", "AgentTherapyUnavailable", "advice_text", "redact", "DEFAULT_URL", "OUTCOMES", "SIGNATURES"]
-__version__ = "0.1.0"
+__version__ = "0.1.1"

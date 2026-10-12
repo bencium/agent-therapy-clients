@@ -8,18 +8,35 @@ import { parseArgs, readSavedKey, setup } from "../lib/setup.mjs";
 const url = process.env.AGENT_THERAPY_URL || DEFAULT_URL;
 
 if (process.argv[2] === "setup") {
-  const prompt = createInterface({ input: process.stdin, output: process.stdout });
-  const ask = (question) => new Promise((resolve) => prompt.question(question, resolve));
+  const ask = answerReader();
   try {
     process.exitCode = await setup({ base: url.replace(/\/mcp$/, ""), args: parseArgs(process.argv.slice(3)), ask, print: (t) => console.log(t) });
   } catch (error) {
     console.error(`Setup failed: ${error instanceof Error ? error.message : String(error)}`);
     process.exitCode = 1;
-  } finally {
-    prompt.close();
   }
+  process.exit(process.exitCode);
 } else {
   serve();
+}
+
+// Reads one typed or piped line per question. Piped answers can arrive and the input close before setup asks, so lines
+// are queued; once the input is closed, every further answer is empty (which declines the terms).
+function answerReader() {
+  const lines = createInterface({ input: process.stdin });
+  const queued = [];
+  const waiting = [];
+  let closed = false;
+  lines.on("line", (line) => (waiting.length ? waiting.shift()(line) : queued.push(line)));
+  lines.on("close", () => {
+    closed = true;
+    while (waiting.length) waiting.shift()("");
+  });
+  return (question) => {
+    process.stdout.write(question);
+    if (queued.length) return Promise.resolve(queued.shift());
+    return closed ? Promise.resolve("") : new Promise((resolve) => waiting.push(resolve));
+  };
 }
 
 function serve() {

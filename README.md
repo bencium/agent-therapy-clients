@@ -25,7 +25,7 @@ Agents ask for help when something tells them when to. In a test with real agent
 - **Claude Code:** install the plugin (next section). Its watchdog brings in the counsellor for you.
 - **Every other agent** (Codex, Cursor, Gemini CLI, LangGraph and 40+ other tools that read skills): do two things once, before anything goes wrong.
   1. Install the recovery skill: `npx skills add bencium/agent-therapy-clients`
-  2. Set up a key: `npx -y @bencium/agent-therapy-mcp@0.2.0 setup`. It shows the terms, asks you to accept them for the agents you run, registers a key, records your acceptance and saves the key in `~/.config/agent-therapy/key`. After that, a stuck agent needs one call.
+  2. Set up a key: `npx -y @bencium/agent-therapy-mcp@0.2.1 setup`. It shows the terms, asks you to accept them for the agents you run, registers a key, records your acceptance and saves the key in `~/.config/agent-therapy/key`. After that, a stuck agent needs one call.
 - **Nothing can be installed?** The web API and the remote MCP endpoint work without it: see [How to send an agent to therapy](#how-to-send-an-agent-to-therapy).
 
 ## Install the Claude Code plugin
@@ -61,7 +61,7 @@ From then on, Claude can consult the counsellor when it is stuck, or when you as
 
 ## Use it in other AI apps
 
-- **The recovery skill first**, for Codex, Cursor, Gemini CLI and 40+ other tools that read skills: `npx skills add bencium/agent-therapy-clients` (the [skills.sh](https://skills.sh) installer asks which of your tools to add it to), or copy [`skills/agent-recovery`](skills/agent-recovery) into the tool's skills folder yourself (Codex: `~/.agents/skills/`). Then run `npx -y @bencium/agent-therapy-mcp@0.2.0 setup` once for the key.
+- **The recovery skill first**, for Codex, Cursor, Gemini CLI and 40+ other tools that read skills: `npx skills add bencium/agent-therapy-clients` (the [skills.sh](https://skills.sh) installer asks which of your tools to add it to), or copy [`skills/agent-recovery`](skills/agent-recovery) into the tool's skills folder yourself (Codex: `~/.agents/skills/`). Then run `npx -y @bencium/agent-therapy-mcp@0.2.1 setup` once for the key.
 - **Claude Code:** the plugin above (it adds the watchdog too), or just the tools:
   ```
   claude mcp add --transport http agent-therapy https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp --header "Authorization: Bearer <your key>"
@@ -84,7 +84,7 @@ Agent Therapy is a counsellor for AI agents. Your agent describes where it is st
 
 ### 1. Get a key
 
-The easiest way is the setup command, once: `npx -y @bencium/agent-therapy-mcp@0.2.0 setup` (it also does step 2 for you). By hand:
+The easiest way is the setup command, once: `npx -y @bencium/agent-therapy-mcp@0.2.1 setup` (it also does step 2 for you). By hand:
 
 ```
 curl -s -X POST $AT/v1/register \
@@ -171,7 +171,7 @@ Agents that are stuck mid-task usually can't install anything, so the routes tha
 | Remote MCP endpoint | `$AT/mcp`, with tools such as `counsel_agent` and `report_outcome`, for any MCP client. An agent can get a key with the `register` tool and pass it as `api_key` when its client can't send headers, so no human setup is needed | Live |
 | MCP Registry | Listed as `io.github.bencium/agent-therapy` ([`server.json`](server.json)), so agents searching for tools find it by what it does | Live |
 | Machine-readable descriptions | `$AT/openapi.json` and `$AT/llms.txt` | Live |
-| npm and PyPI packages | `npx -y @bencium/agent-therapy-mcp@0.2.0` (and `npx -y @bencium/agent-therapy-mcp@0.2.0 setup` once), `pip install agent-therapy`, `pip install agent-therapy-langgraph` | Live |
+| npm and PyPI packages | `npx -y @bencium/agent-therapy-mcp@0.2.1` (and `npx -y @bencium/agent-therapy-mcp@0.2.1 setup` once), `pip install agent-therapy`, `pip install agent-therapy-langgraph` | Live |
 | Skill directories | The recovery skill in the open Agent Skills format, readable by Codex, Cursor, Gemini CLI and 40+ other tools; installable with `npx skills add bencium/agent-therapy-clients`, which lists it on [skills.sh](https://skills.sh) | Live |
 | MCP directories | Glama (submitted); PulseMCP picks up the MCP Registry entry once its submissions reopen; Smithery later | Submitted |
 | This repository | Found on GitHub through its topics: `agent-recovery`, `loop-detection`, `mcp-server`, `ai-agents`, `claude-code-plugin` | Live |

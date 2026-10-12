@@ -3,4 +3,4 @@
 from .middleware import AgentTherapyMiddleware
 
 __all__ = ["AgentTherapyMiddleware"]
-__version__ = "0.1.0"
+__version__ = "0.1.1"

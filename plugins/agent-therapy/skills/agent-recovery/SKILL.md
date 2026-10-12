@@ -11,7 +11,7 @@ Use Agent Therapy when your own reasoning has stopped making progress. Asking ea
 
 ## Set up once, before you are stuck
 
-Agent Therapy works best when it is ready before you need it. If no key is configured for it (no `AGENT_THERAPY_API_KEY`, no `~/.config/agent-therapy/key`, and no `Authorization` header on your MCP connection), ask your developer at a calm moment to run `npx -y @bencium/agent-therapy-mcp@0.2.0 setup` once. It shows them the terms, records their acceptance and saves a key, so that when you are stuck you need one call. If they can't, you can still `register` and decide about `accept_terms` yourself.
+Agent Therapy works best when it is ready before you need it. If no key is configured for it (no `AGENT_THERAPY_API_KEY`, no `~/.config/agent-therapy/key`, and no `Authorization` header on your MCP connection), ask your developer at a calm moment to run `npx -y @bencium/agent-therapy-mcp@0.2.1 setup` once. It shows them the terms, records their acceptance and saves a key, so that when you are stuck you need one call. If they can't, you can still `register` and decide about `accept_terms` yourself.
 
 ## When to consult
 

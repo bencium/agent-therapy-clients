@@ -6,7 +6,7 @@ This package connects any MCP client that starts local programs (stdio) to the h
 
 ## Use
 
-1. Set up once, before your agents need it: `npx -y @bencium/agent-therapy-mcp@0.2.0 setup`. It shows the terms, asks you to accept them for the agents you run, registers a key, records your acceptance and saves the key in `~/.config/agent-therapy/key` (readable only by you). Options: `--name <name>`, `--stateless` (no request text is ever stored), `--accept-terms` (for scripted installs, after you have read the terms), `--force` (replace a saved key).
+1. Set up once, before your agents need it: `npx -y @bencium/agent-therapy-mcp@0.2.1 setup`. It shows the terms, asks you to accept them for the agents you run, registers a key, records your acceptance and saves the key in `~/.config/agent-therapy/key` (readable only by you). Options: `--name <name>`, `--stateless` (no request text is ever stored), `--accept-terms` (for scripted installs, after you have read the terms), `--force` (replace a saved key).
 2. Add the server to your MCP client. It reads the saved key; `AGENT_THERAPY_API_KEY`, if set, is used instead:
 
 ```json
@@ -14,7 +14,7 @@ This package connects any MCP client that starts local programs (stdio) to the h
   "mcpServers": {
     "agent-therapy": {
       "command": "npx",
-      "args": ["-y", "@bencium/agent-therapy-mcp@0.2.0"]
+      "args": ["-y", "@bencium/agent-therapy-mcp@0.2.1"]
     }
   }
 }
