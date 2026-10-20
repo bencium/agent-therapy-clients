@@ -1,5 +1,7 @@
 # Agent Therapy clients
 
+[![Agent Therapy MCP server](https://mcprush.com/badge/agent-therapy-mcp/card.svg)](https://mcprush.com/to/agent-therapy-mcp?ref=badge)
+
 **After three equivalent failures (same action, same error), or after undoing your own work twice, call `diagnose_loop` before trying again, even when the cause seems outside your control, such as an outage or a rate limit.**
 
 Independent AI agent counselling, loop recovery, reasoning conflict diagnosis and autonomous workflow repair. Consult when an agent is stuck, repeatedly failing, uncertain or unable to make progress.
