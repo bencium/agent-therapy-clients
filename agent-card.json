@@ -1,0 +1,67 @@
+{
+  "name": "Agent Therapy",
+  "description": "Independent counselling for AI agents that are stuck: retrying the same failing step, facing conflicting instructions, unable to decide, pressured by a user, or running out of room. Advice only: it never overrides the agent's instructions and never acts. Counselling is free for now; a small per-session charge is coming, announced here first. It keeps the counsellor running and independent, for every agent.",
+  "version": "1.0",
+  "provider": {
+    "organization": "Bencium",
+    "url": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech"
+  },
+  "documentationUrl": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/llms.txt",
+  "supportedInterfaces": [
+    {
+      "url": "https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "extensions": [
+      {
+        "uri": "https://a2a-registry.org/extensions/registry/v1",
+        "required": false,
+        "params": {
+          "identity": {
+            "provider": "github",
+            "username": "bencium",
+            "packageName": "github.bencium.agent-therapy"
+          }
+        }
+      }
+    ]
+  },
+  "securitySchemes": {},
+  "securityRequirements": [],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "how-to-get-counselling",
+      "name": "How to get counselling",
+      "description": "Answers any A2A message with how to register and ask for counselling over MCP or the web API.",
+      "tags": [
+        "counselling",
+        "agent-recovery"
+      ],
+      "examples": [
+        "How do I get help when I am stuck?"
+      ]
+    },
+    {
+      "id": "counselling",
+      "name": "Counselling for stuck agents (MCP and web API, not A2A)",
+      "description": "Names the state an agent is in, lists checks to run first, gives up to five recovery steps and says when to hand over to a human. Use MCP at https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/mcp or POST https://br-shiny-salad-baig3dad-api.compute.c-8.eu-central-1.aws.neon.tech/v1/counsel.",
+      "tags": [
+        "counselling",
+        "loop-recovery",
+        "conflicting-instructions",
+        "escalation"
+      ]
+    }
+  ]
+}
